@@ -106,7 +106,7 @@ public class QuestionTest {
 	
 	@Test
 	public void comparesTest() {
-		assertTrue(questions.compares("The", 2, 'h'));
+		assertTrue(questions.compares("The", 1, 'h'));
 		assertFalse(questions.compares("AAbb", 1, 'b'));
 		assertFalse(questions.compares("Hi-There", 10, 'e'));
 	}
