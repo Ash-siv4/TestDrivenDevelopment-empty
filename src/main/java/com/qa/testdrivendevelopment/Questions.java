@@ -1,5 +1,7 @@
 package com.qa.testdrivendevelopment;
 
+import java.util.ArrayList;
+
 public class Questions {
 
 	/**
@@ -28,7 +30,13 @@ public class Questions {
 	 * multChar("Hi-There") → "HHHiii---TTThhheeerrreee"
 	 */
 	public String multiChar(String input) {
-		return "";
+		StringBuilder sb = new StringBuilder();
+		for (char c : input.toCharArray()) {
+			sb.append(c);
+			sb.append(c);
+			sb.append(c);
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -45,7 +53,25 @@ public class Questions {
 	 */
 
 	public String sandwichFilling(String sandwich) {
-		return "";
+		String result = "";
+		String target = "bread";
+		int firstIndex = 0;
+		int secondIndex = 0;
+		StringBuilder sb = new StringBuilder(sandwich.toLowerCase());
+
+		// Determine if the target word appears twice, capturing any indices:
+		if (sb.toString().contains(target)) {
+			firstIndex = sb.indexOf(target);
+
+			if (firstIndex != sb.lastIndexOf(target)) {
+				secondIndex = sb.indexOf(target, firstIndex + 1);
+
+				// Build the required string and reverse it:
+				StringBuilder forwards = new StringBuilder(sb.substring(firstIndex + target.length(), secondIndex));
+				result = forwards.reverse().toString();
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -61,7 +87,29 @@ public class Questions {
 	 * evenlySpaced(4, 60, 9) → false
 	 */
 	public boolean evenlySpaced(int a, int b, int c) {
-		return false;
+		boolean result = false;
+		int low, mid, high;
+		ArrayList<Integer> numbers = new ArrayList<>();
+
+		// Determine which values are low, mid, and high:
+		low = Math.min(Math.min(a, b), c);
+		high = Math.max(Math.max(a, b), c);
+
+		numbers.add(a);
+		numbers.add(b);
+		numbers.add(c);
+
+		numbers.remove(Integer.valueOf(low));
+		numbers.remove(Integer.valueOf(high));
+
+		mid = numbers.get(0);
+
+		// Determine if evenly spaced:
+		if (high - mid == mid - low) {
+			result = true;
+		}
+
+		return result;
 	}
 
 	/**
@@ -76,7 +124,10 @@ public class Questions {
 	 * nMid("Chocolate", 1) → "Choclate"<br>
 	 */
 	public String nMid(String input, int n) {
-    	return "";
+		StringBuilder sb = new StringBuilder(input);
+		int firstIndex = (sb.length() / 2) - (n / 2);
+		int secondIndex = (sb.length() / 2) + (n / 2) + 1;
+    	return sb.delete(firstIndex, secondIndex).toString();
 	}
 
 	/**
@@ -92,7 +143,7 @@ public class Questions {
 	 * endsJava("pythoniscool") → false <br>
 	 */
 	public boolean endsJava(String input) {
-    	return false;
+		return input.toLowerCase().endsWith("java");
 	}
 
 	/**
@@ -107,7 +158,34 @@ public class Questions {
 	 * HINT: "a" == "a" if false HINT: "a".equals("a") is true
 	 */
 	public int superBlock(String input) {
-    	return -1;
+		int result = 0;
+		int cursor = 0;
+		int counter = 0;
+
+		if (!input.equals("")) {
+
+			// Iterate through the whole input:
+			while (cursor < input.length()) {
+				char currentChar = input.charAt(cursor);
+				counter++;
+
+				// Calculate the size of the current block:
+				while ((cursor < input.length() - 1) && (currentChar == input.charAt(cursor + 1))) {
+					counter++;
+					cursor++;
+				}
+
+				// If this is the largest block so far, overwrite result:
+				if (counter > result) {
+					result = counter;
+				}
+
+				// Reset counter and advance cursor:
+				counter = 0;
+				cursor++;
+			}
+		}
+    	return result;
 	}
 
 	/**
@@ -123,7 +201,23 @@ public class Questions {
 	 * HINT: String.toLowerCase
 	 */
 	public int amISearch(String sentence) {
-    	return -1;
+		int result = 0;
+		int index;
+		String target = " am ";
+		StringBuilder sb = new StringBuilder(" " + sentence.toLowerCase() + " ");
+
+		// Determine if the target word appears:
+		if (sb.toString().contains(target)) {
+			index = sb.indexOf(target);
+			result++;
+
+			// Loop to find any and all further occurrences of target:
+			while (index != sb.lastIndexOf(target)) {
+				index = sb.indexOf(target, index + 1);
+				result++;
+			}
+		}
+    	return result;
 	}
 
 	/**
@@ -138,7 +232,20 @@ public class Questions {
 	 * fizzBuzz(8) → null
 	 */
 	public String fizzBuzz(int number) {
-    	return "";
+		String result;
+		if (number % 15 == 0) {
+			result = "fizzbuzz";
+		}
+		else if (number % 3 == 0) {
+			result = "fizz";
+		}
+		else if (number % 5 == 0) {
+			result = "buzz";
+		}
+		else {
+			result = null;
+		}
+		return result;
 	}
 
 	/**
@@ -151,7 +258,7 @@ public class Questions {
 	 * "72" will = the integer 9 <br>
 	 * "86" will = the integer 14 <br>
 	 * <br>
-	 * You then need to return the highest vale <br>
+	 * You then need to return the highest value <br>
 	 * <br>
 	 * For Example: <br>
 	 * largest("55 72 86") → 14 <br>
@@ -160,9 +267,26 @@ public class Questions {
 	 * <br>
 	 * HINT: Integer.parseInt
 	 */
-
 	public int largest(String input) {
-    	return -1;
+		int result = 0;
+		int count = 0;
+		int currentNumber;
+
+		// Capture individual numbers:
+		String[] numbers = input.split(" ");
+
+		// For each number, determine the result:
+		for (String number : numbers) {
+			for (char digit : number.toCharArray())
+				count += Integer.parseInt(String.valueOf(digit));
+
+			// If this is the largest result so far, overwrite result:
+			if (count > result) {
+				result = count;
+			}
+			count = 0;
+		}
+    	return result;
 	}
 
 	/**
@@ -179,6 +303,16 @@ public class Questions {
 	 * HINT: String.charAt
 	 */
 	public boolean compares(String word, int index, char letter) {
-    	return false;
+		boolean result = false;
+
+		// Ignore whitespace and case:
+		String formatted = word.replaceAll("\\s","").toLowerCase();
+
+		// If index is valid, compare:
+		if (index < formatted.length()) {
+			result = letter == formatted.charAt(index);
+		}
+
+    	return result;
 	}
 }

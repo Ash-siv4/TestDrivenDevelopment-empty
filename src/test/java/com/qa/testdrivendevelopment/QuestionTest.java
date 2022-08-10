@@ -109,6 +109,7 @@ public class QuestionTest {
 		assertTrue(questions.compares("The", 1, 'h'));
 		assertFalse(questions.compares("AAbb", 1, 'b'));
 		assertFalse(questions.compares("Hi-There", 10, 'e'));
+		assertFalse(questions.compares("testing whitespace and CAPS", 24, 'a'));
 	}
 	
 }
